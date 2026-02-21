@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SimulationControls from '../components/SimulationControls.svelte';
 import ProgressPanel from '../components/ProgressPanel.svelte';
+import TimelineControls from '../components/TimelineControls.svelte';
 import ParticleCollider from '../components/ParticleCollider.svelte';
 import BondTrajectoryChart from '../components/BondTrajectoryChart.svelte';
 import DurationHistogram from '../components/DurationHistogram.svelte';
@@ -24,6 +25,7 @@ import OutcomeSummary from '../components/OutcomeSummary.svelte';
       <aside class="sim-sidebar">
         <SimulationControls client:only="svelte" />
         <ProgressPanel client:only="svelte" />
+        <TimelineControls client:only="svelte" />
       </aside>
 
       <!-- Right column: visualizations -->

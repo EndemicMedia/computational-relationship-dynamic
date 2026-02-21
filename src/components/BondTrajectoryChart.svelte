@@ -2,10 +2,16 @@
   import { onMount, onDestroy } from 'svelte';
   import * as d3 from 'd3';
   import { formedResults } from '../lib/simulation-store';
+  import { displayMonth } from '../lib/timeline-store';
   import type { SimulationResult, TimeStep } from '../lib/types';
 
   let svgEl: SVGSVGElement;
   let unsubscribe: () => void;
+  let unsubscribeMonth: () => void;
+
+  // Retained across draws so updateNowLine can move just the line element
+  let chartGroup: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
+  let storedXScale: d3.ScaleLinear<number, number> | null = null;
 
   const MARGIN = { top: 20, right: 20, bottom: 40, left: 50 };
   const W = 560, H = 280;
@@ -25,6 +31,7 @@
       .attr('viewBox', `0 0 ${W} ${H}`)
       .append('g')
       .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`);
+    chartGroup = g;
 
     if (results.length === 0) {
       g.append('text')
@@ -41,6 +48,7 @@
 
     const xScale = d3.scaleLinear().domain([0, maxT]).range([0, innerW]);
     const yScale = d3.scaleLinear().domain([0, 1]).range([innerH, 0]);
+    storedXScale = xScale;
     const colorScale = d3.scaleSequential(d3.interpolateCool).domain([0, MAX_TRAJECTORIES]);
 
     // Grid lines
@@ -128,14 +136,34 @@
       .attr('stroke', '#60a5fa').attr('stroke-width', 1.2).attr('opacity', 0.6);
     legend.append('text').attr('x', 28).attr('y', 28)
       .attr('fill', '#9ca3af').attr('font-size', '10px').text('Individual pairs');
+
+    // Placeholder for the "now" vertical line — moved by updateNowLine
+    g.append('line')
+      .attr('class', 'now-line')
+      .attr('y1', 0).attr('y2', innerH)
+      .attr('stroke', '#fbbf24').attr('stroke-width', 1.5)
+      .attr('stroke-dasharray', '4,3').attr('opacity', 0)
+      .attr('x1', 0).attr('x2', 0);
+  }
+
+  function updateNowLine(month: number) {
+    if (!chartGroup || !storedXScale) return;
+    const x = storedXScale(month);
+    chartGroup.select('.now-line')
+      .attr('x1', x).attr('x2', x)
+      .attr('opacity', month > 0 ? 0.85 : 0);
   }
 
   onMount(() => {
     draw([]);
     unsubscribe = formedResults.subscribe(draw);
+    unsubscribeMonth = displayMonth.subscribe(updateNowLine);
   });
 
-  onDestroy(() => unsubscribe?.());
+  onDestroy(() => {
+    unsubscribe?.();
+    unsubscribeMonth?.();
+  });
 </script>
 
 <div class="chart-wrap card">

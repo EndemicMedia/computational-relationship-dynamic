@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import * as THREE from 'three';
   import { formedResults, simulationState } from '../lib/simulation-store';
+  import { displayMonth } from '../lib/timeline-store';
   import type { SimulationResult } from '../lib/types';
 
   let canvas: HTMLCanvasElement;
@@ -14,6 +15,10 @@
   let clock: THREE.Clock;
   let unsubscribeResults: () => void;
   let unsubscribeState: () => void;
+  let unsubscribeMonth: () => void;
+
+  let storedResults: SimulationResult[] = [];
+  let currentDisplayMonth = 0;
 
   // Particle data
   let positions: Float32Array;
@@ -138,38 +143,44 @@
     scene.add(new THREE.Points(geo, mat));
   }
 
-  function updateFromResults(results: SimulationResult[]) {
+  function updateAtMonth(results: SimulationResult[], month: number) {
     if (!particlesMesh || results.length === 0) return;
 
-    const posAttr = particlesMesh.geometry.getAttribute('position') as THREE.BufferAttribute;
     const colAttr = particlesMesh.geometry.getAttribute('color') as THREE.BufferAttribute;
-
-    // Color particles based on their last known bond strength and satisfaction
     const recent = results.slice(-MAX_PARTICLES);
+
     for (let i = 0; i < Math.min(recent.length, MAX_PARTICLES); i++) {
       const r = recent[i];
-      const lastStep = r.trajectory[r.trajectory.length - 1];
-      if (!lastStep) continue;
+      // Use the step at the current month; fall back to final step if past the end
+      const step = r.trajectory[month] ?? r.trajectory[r.trajectory.length - 1];
+      if (!step) {
+        colAttr.setXYZ(i, 0.15, 0.15, 0.35); // dim — never formed
+        continue;
+      }
 
-      const B = lastStep.B;
-      const avgSat = (lastStep.S1 + lastStep.S2) / 2;
+      const B = step.B;
+      const avgSat = (step.S1 + step.S2) / 2;
+      const isDissolved = step.dissolved || month >= r.trajectory.length;
 
-      // Bond strength → blue-to-green gradient
-      // Satisfaction → brightness
-      colAttr.setXYZ(
-        i,
-        r.outcome === 'stable' ? 0.1 : 0.7 * (1 - B),
-        r.outcome === 'stable' ? 0.7 * avgSat : 0.1,
-        r.outcome === 'stable' ? 0.4 * B : 0.2
-      );
+      if (isDissolved) {
+        // Red-orange: fading signal of a dissolved bond
+        colAttr.setXYZ(i, 0.7 * (1 - B * 0.3), 0.15, 0.15);
+      } else {
+        // Blue-to-green: active bond; brighter = stronger
+        colAttr.setXYZ(i, 0.1 + 0.1 * (1 - B), 0.3 + 0.5 * avgSat, 0.4 + 0.4 * B);
+      }
     }
     colAttr.needsUpdate = true;
-
-    // Update bond lines
-    updateBondLines(recent);
+    updateBondLines(recent, month);
   }
 
-  function updateBondLines(results: SimulationResult[]) {
+  // Keep legacy name so onMount wiring below still works
+  function updateFromResults(results: SimulationResult[]) {
+    storedResults = results;
+    updateAtMonth(results, currentDisplayMonth);
+  }
+
+  function updateBondLines(results: SimulationResult[], month: number) {
     if (!bondLinesMesh) return;
     const posAttr = particlesMesh.geometry.getAttribute('position') as THREE.BufferAttribute;
     const bondPos = bondLinesMesh.geometry.getAttribute('position') as THREE.BufferAttribute;
@@ -180,21 +191,28 @@
       const r = results[i];
       if (!r.formed || r.trajectory.length === 0) continue;
 
-      const lastStep = r.trajectory[r.trajectory.length - 1];
-      const B = lastStep?.B ?? 0;
+      const step = r.trajectory[month] ?? r.trajectory[r.trajectory.length - 1];
+      const B = step?.B ?? 0;
+      const isDissolved = !step || step.dissolved || month >= r.trajectory.length;
 
-      const idx1 = (r.individual1 % MAX_PARTICLES);
-      const idx2 = (r.individual2 % MAX_PARTICLES);
+      const idx1 = r.individual1 % MAX_PARTICLES;
+      const idx2 = r.individual2 % MAX_PARTICLES;
 
       const x1 = posAttr.getX(idx1), y1 = posAttr.getY(idx1), z1 = posAttr.getZ(idx1);
       const x2 = posAttr.getX(idx2), y2 = posAttr.getY(idx2), z2 = posAttr.getZ(idx2);
 
-      bondPos.setXYZ(i * 2, x1, y1, z1);
+      bondPos.setXYZ(i * 2,     x1, y1, z1);
       bondPos.setXYZ(i * 2 + 1, x2, y2, z2);
 
-      const stable = r.outcome === 'stable';
-      bondCol.setXYZ(i * 2, stable ? 0.1 : 0.9, stable ? 0.9 : 0.2, stable ? 0.4 : 0.2);
-      bondCol.setXYZ(i * 2 + 1, stable ? 0.2 : 0.8, stable ? 0.7 : 0.1, stable ? 0.6 : 0.1);
+      if (isDissolved) {
+        // Faint red bond line after dissolution
+        bondCol.setXYZ(i * 2,     0.5, 0.1, 0.1);
+        bondCol.setXYZ(i * 2 + 1, 0.4, 0.1, 0.1);
+      } else {
+        // Bright green-to-teal, intensity proportional to bond strength
+        bondCol.setXYZ(i * 2,     0.1,       0.6 + 0.3 * B, 0.4 * B);
+        bondCol.setXYZ(i * 2 + 1, 0.1 * B,   0.5 + 0.4 * B, 0.5 * B);
+      }
     }
 
     bondPos.needsUpdate = true;
@@ -254,12 +272,17 @@
     initThree();
     unsubscribeResults = formedResults.subscribe(updateFromResults);
     unsubscribeState = simulationState.subscribe(() => {});
+    unsubscribeMonth = displayMonth.subscribe(m => {
+      currentDisplayMonth = m;
+      updateAtMonth(storedResults, m);
+    });
   });
 
   onDestroy(() => {
     cancelAnimationFrame(animationId);
     unsubscribeResults?.();
     unsubscribeState?.();
+    unsubscribeMonth?.();
     window.removeEventListener('resize', onResize);
     renderer?.dispose();
     particlesMesh?.geometry.dispose();
