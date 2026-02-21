@@ -1,4 +1,6 @@
 ---
+import { execSync } from 'child_process';
+
 export interface Props {
   title?: string;
   description?: string;
@@ -8,6 +10,9 @@ const {
   description = 'A collision-based framework for simulating romantic pair bonding at scale.',
 } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+let commit = 'unknown';
+try { commit = execSync('git rev-parse --short HEAD').toString().trim(); } catch {}
 ---
 
 <!doctype html>
@@ -46,6 +51,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         <p>
           Collision-Based Modeling of Romantic Pair Bonding &mdash;
           Computational Relationship Dynamics Framework &copy; 2025
+          &ensp;<code>{commit}</code>
         </p>
       </div>
     </footer>
@@ -67,5 +73,10 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
     font-size: 0.8rem;
     text-align: center;
     margin: 0;
+  }
+  footer code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    opacity: 0.6;
   }
 </style>
