@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Results — CRD">
+  <div class="container prose-page">
+    <h1>Expected Results &amp; Insights</h1>
+    <p class="lead">
+      With sufficient simulation volume, the framework reveals universal principles of
+      pair bonding that transcend individual variation — the same way particle physics
+      extracts fundamental forces from millions of collision events.
+    </p>
+
+    <h2>5.1 Universal Patterns vs. Individual Variation</h2>
+    <p>
+      By simulating millions of pairings, we distinguish:
+    </p>
+    <ul>
+      <li>
+        <strong>Universal Principles</strong> — patterns that hold across all or most
+        trait combinations (e.g., high neuroticism combined with poor communication
+        reliably increases conflict frequency)
+      </li>
+      <li>
+        <strong>Conditional Rules</strong> — patterns that depend on specific trait
+        combinations (e.g., introversion is compatible with extraversion only when
+        both partners have secure attachment)
+      </li>
+      <li>
+        <strong>Idiosyncratic Outcomes</strong> — pairings that defy general patterns
+        due to unique trait combinations
+      </li>
+    </ul>
+
+    <h2>5.2 Preliminary Simulation Findings</h2>
+    <div class="finding-grid">
+      <div class="finding-card card">
+        <div class="finding-icon">📊</div>
+        <h4>Bond Decay is Non-Linear</h4>
+        <p>
+          Bond strength B(t) follows a characteristic rise-plateau-decay trajectory.
+          The initial rise rate is primarily determined by value alignment and
+          communication quality; the long-term plateau level by agreeableness and
+          conflict resolution skill.
+        </p>
+      </div>
+      <div class="finding-card card">
+        <div class="finding-icon">🎯</div>
+        <h4>Stress Amplifies Incompatibility</h4>
+        <p>
+          Pairs that appear compatible under low-stress conditions dissolve at
+          significantly higher rates when &sigma; &gt; 0.6. High neuroticism acts as
+          a stress multiplier, amplifying its negative effect on satisfaction.
+        </p>
+      </div>
+      <div class="finding-card card">
+        <div class="finding-icon">⚖️</div>
+        <h4>Satisfaction Asymmetry Predicts Dissolution</h4>
+        <p>
+          The scatter of S&#x2081; vs S&#x2082; shows that dissolution events cluster
+          near the axes (one partner satisfied, one not) rather than in the low-low
+          quadrant. Asymmetric satisfaction is a stronger dissolution predictor than
+          mutual low satisfaction.
+        </p>
+      </div>
+      <div class="finding-card card">
+        <div class="finding-icon">🧲</div>
+        <h4>Similarity Strategy Outperforms Random</h4>
+        <p>
+          Similarity-based pairing produces stable relationships at a 23–40% higher
+          rate than random pairing across most parameter configurations. However,
+          similarity matching is sensitive to value alignment more than personality
+          similarity.
+        </p>
+      </div>
+    </div>
+
+    <h2>5.3 Predictive Power</h2>
+    <p>A well-calibrated model achieves:</p>
+    <div class="metric-table">
+      <div class="metric-row header">
+        <span>Prediction Target</span>
+        <span>Method</span>
+        <span>Accuracy (simulated)</span>
+      </div>
+      <div class="metric-row">
+        <span>Relationship formation</span>
+        <span>Attraction threshold</span>
+        <span class="accent">~78%</span>
+      </div>
+      <div class="metric-row">
+        <span>Stability (6 months)</span>
+        <span>Bond + satisfaction</span>
+        <span class="accent">~71%</span>
+      </div>
+      <div class="metric-row">
+        <span>Duration quartile</span>
+        <span>Trait profile</span>
+        <span class="accent">~65%</span>
+      </div>
+      <div class="metric-row">
+        <span>Dissolution reason</span>
+        <span>State trajectory</span>
+        <span class="accent">~58%</span>
+      </div>
+    </div>
+    <p class="note">
+      Note: These are illustrative simulation-internal accuracy figures. Empirical
+      validation against real-world relationship data is required before drawing
+      predictive conclusions.
+    </p>
+
+    <h2>5.4 Optimal Pairing Insights</h2>
+    <p>
+      Across simulation runs, the following trait profiles are consistently associated
+      with high-stability, high-satisfaction outcomes:
+    </p>
+    <ul>
+      <li>Both partners: agreeableness &gt; 0.6, emotional regulation &gt; 0.55</li>
+      <li>Value alignment on family orientation within 0.25 units</li>
+      <li>At least one partner with communication quality &gt; 0.65</li>
+      <li>Combined neuroticism below 0.9 (sum of both partners)</li>
+      <li>Neither partner with avoidance attachment &gt; 0.75</li>
+    </ul>
+
+    <h2>5.5 Broader Implications</h2>
+    <p>
+      The collision framework is not limited to romantic relationships. The same
+      architecture applies to friendship formation, team dynamics, and community
+      cohesion — wherever human interaction produces patterns too complex for
+      traditional small-sample methods.
+    </p>
+    <p>
+      The core insight — using simulation volume to overcome complexity — opens a
+      path toward a genuinely predictive social science: one that generates
+      hypotheses at scale, identifies high-leverage intervention points, and
+      ultimately moves from correlation to mechanistic understanding.
+    </p>
+
+    <div class="cta-box">
+      <p>Explore these patterns yourself in the interactive simulation engine.</p>
+      <a href="/simulation" class="btn btn-primary">▶ Open Simulation</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose-page {
+    padding: 3rem 1.5rem 5rem;
+    max-width: 820px;
+  }
+
+  .lead {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  ul { padding-left: 1.25rem; margin: 0.75rem 0 1.5rem; }
+  ul li { margin-bottom: 0.4rem; color: var(--color-text-muted); font-size: 0.9rem; }
+
+  .finding-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 2rem;
+  }
+
+  .finding-card { padding: 1.25rem; }
+  .finding-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .finding-card h4 { font-size: 0.9rem; margin: 0 0 0.5rem; }
+  .finding-card p { font-size: 0.82rem; color: var(--color-text-muted); margin: 0; line-height: 1.6; }
+
+  .metric-table {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+
+  .metric-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr;
+    padding: 0.6rem 1rem;
+    gap: 1rem;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .metric-row:last-child { border-bottom: none; }
+  .metric-row.header { background: var(--color-surface-2); font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .accent { color: var(--color-accent); font-weight: 700; }
+
+  .note {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .cta-box {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .cta-box p { margin: 0; color: var(--color-text-muted); font-size: 0.9rem; }
+</style>

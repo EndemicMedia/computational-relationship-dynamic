@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Methodology — CRD">
+  <div class="container prose-page">
+
+    <h1>Methodology</h1>
+    <p class="lead">
+      The Computational Relationship Dynamics (CRD) framework applies the particle
+      collision paradigm to relationship science, replacing physical particles with
+      mathematical models of individuals and physical collisions with pairing events.
+    </p>
+
+    <h2>Phase 1: Defining the Fundamental Components</h2>
+    <h3>Individual Trait Models</h3>
+    <p>
+      Each simulated individual is represented as a multidimensional vector spanning
+      four domains:
+    </p>
+
+    <div class="trait-grid">
+      <div class="trait-domain card">
+        <h4>Personality (Big Five)</h4>
+        <ul>
+          <li>Openness to Experience</li>
+          <li>Conscientiousness</li>
+          <li>Extraversion</li>
+          <li>Agreeableness</li>
+          <li>Neuroticism</li>
+        </ul>
+      </div>
+      <div class="trait-domain card">
+        <h4>Attachment Style</h4>
+        <ul>
+          <li>Anxiety dimension [0, 1]</li>
+          <li>Avoidance dimension [0, 1]</li>
+          <li>Correlated with neuroticism</li>
+        </ul>
+      </div>
+      <div class="trait-domain card">
+        <h4>Core Values</h4>
+        <ul>
+          <li>Family orientation</li>
+          <li>Career ambition</li>
+          <li>Novelty seeking</li>
+          <li>Security seeking</li>
+          <li>Social orientation</li>
+        </ul>
+      </div>
+      <div class="trait-domain card">
+        <h4>Relationship Skills</h4>
+        <ul>
+          <li>Emotional regulation</li>
+          <li>Communication quality</li>
+          <li>Conflict resolution</li>
+          <li>Empathy</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Trait Distribution Strategy</h3>
+    <p>
+      Traits are sampled using a Box-Muller transformation to produce Gaussian
+      distributions centered at 0.5 with standard deviation ≈ 0.2. Biologically and
+      psychologically motivated correlations are preserved — for example, high neuroticism
+      increases the probability of an anxious attachment style.
+    </p>
+
+    <h2>Phase 2: The Collision Simulation Engine</h2>
+    <h3>Population Generation</h3>
+    <p>
+      A synthetic population of N individuals (configurable: 50 – 2,000 in the
+      interactive engine, theoretically unlimited) is generated with empirically-informed
+      trait distributions. All computations run inside a Web Worker to keep the
+      interface responsive during long-running experiments.
+    </p>
+
+    <h3>Pairing Strategies</h3>
+    <div class="strategy-cards">
+      <div class="strategy-card card">
+        <div class="strategy-name">Random Collision</div>
+        <p>
+          Individuals are paired uniformly at random. Provides the baseline
+          distribution of relationship outcomes across the full trait-space —
+          analogous to colliding particles at random angles.
+        </p>
+      </div>
+      <div class="strategy-card card">
+        <div class="strategy-name">Similarity-Based</div>
+        <p>
+          For each focal individual, five candidate partners are sampled; the
+          most similar (by personality and values cosine distance) is selected.
+          Models homophily effects observed in real partner selection.
+        </p>
+      </div>
+      <div class="strategy-card card">
+        <div class="strategy-name">Preference-Based</div>
+        <p>
+          Matching is weighted by each individual&rsquo;s stated preference vectors —
+          analogous to tuning collision parameters to maximize production of
+          specific outcomes.
+        </p>
+      </div>
+    </div>
+
+    <h3>Relationship Trajectory Simulation</h3>
+    <p>
+      Each pair is simulated forward using a discrete-time Euler integration
+      of the coupled ODE system. At each monthly time step:
+    </p>
+    <ol class="steps">
+      <li>Bond strength B(t) is updated via the positive/negative/decay equation.</li>
+      <li>Individual satisfactions S₁(t) and S₂(t) are updated based on partner match, bond strength, and external stress.</li>
+      <li>A dissolution probability P(dissolve|t) is computed and compared against a uniform random draw.</li>
+      <li>If dissolution occurs, the trajectory is terminated and the reason is recorded.</li>
+    </ol>
+
+    <h2>Phase 3: Mathematical Framework</h2>
+
+    <div class="eq-block">
+      <div class="eq-label">Initial Attraction</div>
+      <pre>A(T₁, T₂) = valueSim × 0.35
+            + extroComp × 0.20
+            + agreeableness × 0.25
+            + secureAttachment × 0.20</pre>
+      <p class="eq-note">
+        If A &lt; threshold (configurable), no relationship forms — the collision produces no bond.
+      </p>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Bond Strength Evolution</div>
+      <pre>dB/dt = α·P(T₁, T₂, B) − β·N(T₁, T₂) − γ·B
+
+where:
+  P = (commAvg × 0.4 + empAvg × 0.35 + valAlign × 0.25) × (0.5 + B/2)
+  N = neurAvg × 0.4 + anxAvg × 0.3 + conflictPoor × 0.3</pre>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Satisfaction Delta</div>
+      <pre>dS₁/dt = partnerMatchScore × 0.04
+          + (B − 0.5) × 0.02
+          − stressLevel × neuroticism × 0.01</pre>
+    </div>
+
+    <div class="eq-block">
+      <div class="eq-label">Dissolution Probability</div>
+      <pre>P(dissolve|t) = (1 − B) × 0.02
+              + (1 − S̄) × 0.02
+              + σ × 0.01
+
+Clipped to [0, 1]. If B &lt; 0.05: P → 0.95.</pre>
+    </div>
+
+    <h2>Limitations and Future Work</h2>
+    <p>
+      The current implementation uses simplified linear and weighted-sum interaction
+      functions. Future iterations should incorporate:
+    </p>
+    <ul>
+      <li>Non-linear trait interactions (multiplicative effects, thresholds)</li>
+      <li>Temporal trait evolution (people change over time)</li>
+      <li>Social network effects (mutual friends, community context)</li>
+      <li>Cultural and contextual parameter sets calibrated to empirical data</li>
+      <li>GPU-accelerated simulation via WebGPU compute shaders for population scales exceeding 100,000</li>
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose-page {
+    padding: 3rem 1.5rem 5rem;
+    max-width: 820px;
+  }
+
+  .lead {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.75;
+  }
+
+  .trait-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 2rem;
+  }
+
+  .trait-domain h4 { font-size: 0.85rem; color: var(--color-accent); margin: 0 0 0.6rem; }
+  .trait-domain ul { padding-left: 1.1rem; }
+  .trait-domain li { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 0.25rem; }
+
+  .strategy-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 2rem;
+  }
+
+  .strategy-card { padding: 1.25rem; }
+  .strategy-name { font-weight: 700; color: var(--color-accent); margin-bottom: 0.5rem; font-size: 0.9rem; }
+  .strategy-card p { font-size: 0.83rem; color: var(--color-text-muted); margin: 0; line-height: 1.6; }
+
+  .steps { padding-left: 1.25rem; margin: 1rem 0 1.5rem; }
+  .steps li { margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--color-text-muted); }
+
+  .eq-block {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+  }
+
+  .eq-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .eq-block pre {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.82rem;
+    color: #a5b4fc;
+    margin: 0 0 0.5rem;
+  }
+
+  .eq-note { font-size: 0.78rem; color: var(--color-text-muted); margin: 0; }
+
+  ul { padding-left: 1.25rem; margin: 0.75rem 0 1rem; }
+  ul li { margin-bottom: 0.35rem; color: var(--color-text-muted); font-size: 0.9rem; }
+</style>

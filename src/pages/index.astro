@@ -1,0 +1,301 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="CRD — Computational Relationship Dynamics">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Research Paper · Computational Social Science</div>
+      <h1>
+        Collision-Based Modeling of<br />
+        <span class="accent">Romantic Pair Bonding</span>
+      </h1>
+      <p class="hero-sub">
+        A computational framework for understanding relationship dynamics through
+        large-scale simulation — adapting methodologies from high-energy particle physics
+        to the science of human connection.
+      </p>
+      <div class="hero-actions">
+        <a href="/simulation" class="btn btn-primary">▶ Launch Simulation</a>
+        <a href="/methodology" class="btn btn-outline">Read Methodology</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-value">10,000+</span>
+          <span class="hero-stat-label">Pair Simulations</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">20</span>
+          <span class="hero-stat-label">Trait Dimensions</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">3</span>
+          <span class="hero-stat-label">Pairing Strategies</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">50yr</span>
+          <span class="hero-stat-label">Max Simulation Span</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="section" id="abstract">
+    <div class="container prose">
+      <h2>Abstract</h2>
+      <p>
+        We propose a novel computational framework for understanding romantic relationship
+        formation and dynamics by adapting methodologies from high-energy particle physics.
+        Just as particle colliders generate vast datasets by repeatedly colliding particles
+        at varying energy levels to reveal fundamental interaction patterns, we model
+        romantic relationships through large-scale simulations of pair bonding
+        &ldquo;collisions&rdquo; across diverse parameter spaces.
+      </p>
+      <p>
+        By creating synthetic populations with varying traits, preferences, and behavioral
+        patterns, and simulating millions of potential pairings under different conditions,
+        we extract fundamental principles governing relationship formation, stability, and
+        dissolution. This approach promises to move relationship science from small-n
+        observational studies toward a physics-inspired framework capable of revealing
+        universal patterns through computational volume rather than physical observation.
+      </p>
+
+      <blockquote>
+        <strong>Key insight:</strong> No single collision reveals the underlying physics.
+        It&rsquo;s the <em>aggregate pattern</em> across millions of collisions that exposes
+        the fundamental rules.
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- The Analogy -->
+  <section class="section" id="analogy">
+    <div class="container">
+      <h2>The Particle Collision Analogy</h2>
+      <div class="analogy-grid">
+        <div class="analogy-card">
+          <div class="analogy-icon">⚛️</div>
+          <div class="analogy-label">Physics</div>
+          <div class="analogy-arrow">→</div>
+          <div class="analogy-icon">💑</div>
+          <div class="analogy-label">Relationships</div>
+        </div>
+        <div class="mapping-list">
+          <div class="mapping-row">
+            <span class="map-from">Particles</span>
+            <span class="map-sep">≡</span>
+            <span class="map-to">Individuals (trait vectors)</span>
+          </div>
+          <div class="mapping-row">
+            <span class="map-from">Collision</span>
+            <span class="map-sep">≡</span>
+            <span class="map-to">Pairing event</span>
+          </div>
+          <div class="mapping-row">
+            <span class="map-from">Collision Energy</span>
+            <span class="map-sep">≡</span>
+            <span class="map-to">Relationship intensity</span>
+          </div>
+          <div class="mapping-row">
+            <span class="map-from">Collision Products</span>
+            <span class="map-sep">≡</span>
+            <span class="map-to">Relationship outcomes</span>
+          </div>
+          <div class="mapping-row">
+            <span class="map-from">Energy Levels</span>
+            <span class="map-sep">≡</span>
+            <span class="map-to">Contextual conditions</span>
+          </div>
+          <div class="mapping-row">
+            <span class="map-from">Data Volume</span>
+            <span class="map-sep">≡</span>
+            <span class="map-to">Simulation scale</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Equations -->
+  <section class="section" id="equations">
+    <div class="container prose">
+      <h2>Mathematical Framework</h2>
+      <p>The relationship evolves according to a system of differential equations:</p>
+
+      <div class="eq-block">
+        <div class="eq-label">Bond Strength Evolution</div>
+        <div class="eq-body">
+          dB/dt = &alpha;&middot;P(T&#x2081;, T&#x2082;, R(t)) &minus; &beta;&middot;N(T&#x2081;, T&#x2082;, R(t)) &minus; &gamma;&middot;B(t)
+        </div>
+        <div class="eq-desc">
+          Where P = positive interactions (communication, empathy, shared values),
+          N = negative interactions (conflict, neuroticism, avoidance),
+          and &gamma;&middot;B represents natural bond decay.
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Satisfaction Evolution</div>
+        <div class="eq-body">
+          dS&#x2081;/dt = f&#x2081;(B(t), Match(T&#x2081;, T&#x2082;), E(t), H&#x2081;(t))
+        </div>
+        <div class="eq-desc">
+          Individual satisfaction as a function of bond strength, partner preference matching,
+          external context, and personal state.
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Dissolution Probability</div>
+        <div class="eq-body">
+          P(dissolve|t) = g(B(t), S&#x2081;(t), S&#x2082;(t), E(t), Barriers(t))
+        </div>
+        <div class="eq-desc">
+          Stochastic dissolution based on investment model and interdependence theory.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container" style="text-align:center;">
+      <h2>Ready to Run the Simulation?</h2>
+      <p style="color:var(--color-text-muted);max-width:500px;margin:0 auto 1.5rem;">
+        Adjust population size, pairing strategy, stress levels, and equation parameters —
+        then watch the collision events unfold in real time.
+      </p>
+      <a href="/simulation" class="btn btn-primary" style="font-size:1.05rem;padding:0.75rem 2rem;">
+        ▶ Open Simulation Engine
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: 5rem 0 3rem;
+    background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.12) 0%, transparent 70%);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(99,102,241,0.15);
+    border: 1px solid rgba(99,102,241,0.35);
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 99px;
+    margin-bottom: 1.25rem;
+  }
+
+  .accent { color: var(--color-accent); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 1rem 0 1.75rem;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat { display: flex; flex-direction: column; gap: 0.2rem; }
+  .hero-stat-value { font-size: 1.5rem; font-weight: 800; color: var(--color-accent); }
+  .hero-stat-label { font-size: 0.75rem; color: var(--color-text-muted); }
+
+  /* Prose */
+  .prose { max-width: 720px; }
+
+  blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    background: rgba(99,102,241,0.07);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Analogy */
+  .analogy-grid {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .analogy-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .analogy-icon { font-size: 2rem; }
+  .analogy-label { font-weight: 600; color: var(--color-text); }
+  .analogy-arrow { font-size: 1.25rem; color: var(--color-accent); }
+
+  .mapping-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .mapping-row { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; }
+  .map-from { font-weight: 600; color: var(--color-accent); min-width: 140px; }
+  .map-sep { color: var(--color-text-muted); }
+  .map-to { color: var(--color-text); }
+
+  /* Equations */
+  .eq-block {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .eq-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .eq-body {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: #a5b4fc;
+    margin-bottom: 0.6rem;
+  }
+
+  .eq-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .cta-section { border-bottom: none; }
+</style>

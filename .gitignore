@@ -95,6 +95,9 @@ dist
 .temp
 .cache
 
+# Astro build cache
+.astro/
+
 # Sveltekit cache directory
 .svelte-kit/
 
