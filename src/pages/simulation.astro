@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimulationControls from '../components/SimulationControls.svelte';
+import ProgressPanel from '../components/ProgressPanel.svelte';
+import ParticleCollider from '../components/ParticleCollider.svelte';
+import BondTrajectoryChart from '../components/BondTrajectoryChart.svelte';
+import DurationHistogram from '../components/DurationHistogram.svelte';
+import SatisfactionScatter from '../components/SatisfactionScatter.svelte';
+import OutcomeSummary from '../components/OutcomeSummary.svelte';
+---
+
+<BaseLayout title="Simulation Engine — CRD">
+  <div class="container sim-page">
+    <header class="sim-header">
+      <h1>Relationship Collision Engine</h1>
+      <p class="sim-subtitle">
+        Configure the population and pairing parameters below, then launch the simulation.
+        Results update in real time as pair trajectories are computed.
+      </p>
+    </header>
+
+    <div class="sim-layout">
+      <!-- Left column: controls -->
+      <aside class="sim-sidebar">
+        <SimulationControls client:only="svelte" />
+        <ProgressPanel client:only="svelte" />
+      </aside>
+
+      <!-- Right column: visualizations -->
+      <div class="sim-viz">
+        <ParticleCollider client:only="svelte" />
+
+        <div class="chart-pair">
+          <BondTrajectoryChart client:only="svelte" />
+          <DurationHistogram client:only="svelte" />
+        </div>
+
+        <div class="chart-pair">
+          <SatisfactionScatter client:only="svelte" />
+          <OutcomeSummary client:only="svelte" />
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .sim-page {
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .sim-header {
+    margin-bottom: 2rem;
+  }
+
+  .sim-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .sim-subtitle {
+    color: var(--color-text-muted);
+    max-width: 640px;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .sim-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .sim-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sim-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 72px;
+  }
+
+  .sim-viz {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .chart-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 1100px) {
+    .chart-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
