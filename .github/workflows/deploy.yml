@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - claude/research-simulation-framework-YKcXK
   workflow_dispatch:
 
 permissions:
