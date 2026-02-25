@@ -12,7 +12,7 @@
   let animationId: number;
   let particlesMesh: THREE.Points;
   let bondLinesMesh: THREE.LineSegments;
-  let clock: THREE.Clock;
+  let startTime: number;
   let unsubscribeResults: () => void;
   let unsubscribeState: () => void;
   let unsubscribeMonth: () => void;
@@ -41,7 +41,7 @@
     camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 200);
     camera.position.set(0, 0, 18);
 
-    clock = new THREE.Clock();
+    startTime = performance.now();
 
     // Ambient + point lights for glow effect
     scene.add(new THREE.AmbientLight(0x111122, 2));
@@ -222,7 +222,7 @@
 
   function animate() {
     animationId = requestAnimationFrame(animate);
-    const elapsed = clock.getElapsedTime();
+    const elapsed = (performance.now() - startTime) / 1000;
 
     // Slow camera orbit
     camera.position.x = Math.cos(elapsed * 0.07) * 18;
